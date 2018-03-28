@@ -1,0 +1,65 @@
+
+Urls details of api - 
+
+Users Urls:
+
+Base url for users - http://localhost:3000/v1/users/
+
+
+    Methods  |      URLs         |           Descriptions
+			 |                   |
+1)   GET     | /allInfo 	     | This URL get all users information.
+			 |                   |
+2)   GET     | /loginPage 	     | This will redirect to login screen where user can login.
+			 |                   |
+3)   POST    | /login			 | Main Login Page.
+			 |                   |
+4)   GET     | /signupPage		 | Signup page URL for User Registeration.
+			 |                   |
+5)   POST    | /signup			 | Register for the app. 
+			 |                   |
+6)   POST    | /delete/:userId	 | For Delete user of particular userId.
+			 |                   |						
+7)   GET     | /dashboard		 | Main dashboard page. 
+			 |                   |
+8)   GET     | /logout			 | Logout API page.
+			 |                   |
+9)   GET     | /changePassword	 | This is used to change your password.
+			 |                   |
+10)  POST    | /passwordPage	 | Change password of the user
+			 |                   |
+11)  GET     | /cart			 | For users cart info
+			 |                   |
+12)  GET     | /:userId			 | Gives information of perticuler userid
+			 |                   |
+13)  GET     | /forgotPass		 | Forgot Password page to recover your password
+			 |                   |
+14)  POST    | /recoverPass		 | Use to recover user's password
+			 |                   |
+15)  GET     | /addToCart		 | Add products in to your cart
+			 |                   |
+16)  POST    | /cart/add 		 | Use to add product into the cart
+			 |                   |
+17)  GET     | /removeFromCart	 | RemoveFromCart page,where you can remove product from the cart
+			 |                   |
+18)  POST    | /cart/remove 	 | Use to remove product from the cart
+
+
+Product Urls:
+
+Base url for Products - http://localhost:3000/v1/products/
+
+    Methods  |      URLs         |           Descriptions
+			 |                   |
+1)   GET     | /allProducts 	 | This is used to get all products information.
+			 |                   |							
+2)   GET     | /:productId		 | To get information of perticuler product.
+			 |                   |						
+3)   PUT     | /edit/:id		 | This is used to edit a perticuler product.
+			 |                   |
+4)   GET     | /seller/:sellerId | Get information of the seller.
+			 |                   |
+5)   POST    | /create			 | Use to create a product.
+			 |                   |
+6)   POST    | /delete			 | Use to delete a product from the list.
+

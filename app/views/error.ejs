@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./head.ejs %>
+  <style type="text/css">
+    body
+    {
+      margin: 0 !important;
+      padding:0 !important;
+    }
+
+    .error-box
+    {
+      padding: 5% !important;
+      margin-left:20% !important;
+      margin-right: 20% !important;
+      margin-top: 0 !important;
+    }
+
+    .input-block
+    {
+      margin: 5%;
+    }
+
+    form div input
+    {
+      width: 100%;
+      margin: 0 !important;
+      padding: 2%;
+    }
+
+    button
+    {
+      width: 30%;
+      margin-left: 35%;
+      margin-right: 35%;
+      padding: 2%;
+      background-color: transparent;
+      border-radius: 12px;
+      border: 2px solid gray;
+    }
+    p
+    {
+      text-align : center;
+    }
+
+    
+    .link
+    {
+      text-decoration: none;
+      float: center;
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <main>
+  <div class="error-box">
+    <br>
+    <p><b> Oops ! Some error occured. </b></p>
+    <br> <hr>
+    <p> Error Says : <code> <%= message %>  </code></p>
+    <p> Status : <code> <%= status %>   </code></p>
+    <p><a class="link" href ="http://localhost:3000/v1/users/loginPage" ><b>Login</b></a></p>
+    <p><a class="link" href ="http://localhost:3000/v1/users/signupPage" ><b>Sign up</b></a></p>
+  </div>
+  </main>
+  <% include ./footer.ejs %>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./head.ejs %>
+  <style type="text/css">
+    body
+    {
+      margin: 0 !important;
+      padding:0 !important;
+    }
+
+    .addToCart-box
+    {
+      padding: 5% !important;
+      margin-left:20% !important;
+      margin-right: 20% !important;
+      margin-top: 0 !important;
+    }
+
+    .input-block
+    {
+      margin: 5%;
+    }
+
+    form div input
+    {
+      width: 100%;
+      margin: 0 !important;
+      padding: 2%;
+    }
+
+    button
+    {
+      width: 24%;
+      margin-left: 35%;
+      margin-right: 35%;
+      padding: 2%;
+      background-color: transparent;
+      border-radius: 12px;
+      border: 2px solid gray;
+    }
+    p
+    {
+      text-align : center;
+    }
+
+    .link
+    {
+      text-decoration: none;
+      float: right;
+    }
+
+
+
+  </style>
+</head>
+<body >
+  <main>
+  <div class="addToCart-box">
+    
+    <h3><p><b>Add Products To Cart </b></p></h3>
+    <a class ="link" href ="http://localhost:3000/v1/users/dashboard" > Home </a><br>
+    <a class ="link" href ="http://localhost:3000/v1/users/cart">Cart</a><br>
+    <a class ="link" href ="http://localhost:3000/v1/products/allProducts" > List All Products </a><br>    
+    <a class ="link" href ="http://localhost:2000/v1/users/removeFromCart" > Remove Products From Cart</a><br>
+     <hr>
+    <form action="http://localhost:3000/v1/users/cart/add" method="post">
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="productId" placeholder="Product ID" autofocus required/> <br> <br>
+      <button type="submit" name="submit">Add</button><br>
+      
+    </form>
+    <br>
+    <br>
+  </div><br><br>
+  </main>
+  <% include ./footer.ejs %>
+</body>
+</html>

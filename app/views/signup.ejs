@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./head.ejs %>
+  <style type="text/css">
+    body
+    {
+      margin: 0 !important;
+      padding:0 !important;
+    }
+    .signup-box
+    {
+      padding: 2%;
+      margin-left:20%;
+      margin-right: 20%;
+      margin-top: 0;
+    }
+
+    .input-block
+    {
+      margin: 1%;
+    }
+
+    form div input
+    {
+      width: 100%;
+      margin: 0 !important;
+      padding: 2%;
+    }
+
+    button
+    {
+      width: 30%;
+      margin-left: 35%;
+      margin-right: 35%;
+      padding: 2%;
+      background-color: transparent;
+      border-radius: 12px;
+      border: 2px solid gray;
+    }
+    p
+    {
+      text-align : center;
+    }
+    .header{
+      font-size: 2em;
+    }
+
+    .signupButton
+    {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <main>
+  <div class="signup-box">
+    <br>
+    <p class="header"><b>Create a New Account</b></p>
+    <br> <hr>
+    <form class="login-form" action="http://localhost:3000/v1/users/signup" method="post">
+      <label><b>First Name :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="firstName" placeholder="First Name" autofocus required/>
+      </div>
+      <label><b>Last Name :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="lastName" placeholder="Last Name" autofocus required/>
+      </div>
+      <label><b>Email :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="email" name="email" placeholder="Email" autofocus required/>
+      </div>
+      <label><b>Password :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="password" name="password" placeholder="Password" required/>
+      </div>
+      <label><b>Primary Phone :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="primaryPhone" placeholder="Primary Phone" autofocus required/>
+      </div>
+      <label><b>Secondary Phone :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="secondaryPhone" placeholder="Secondary Phone" autofocus required />
+      </div>
+      <label><b>Security Question :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="securityQuestion" placeholder="Security Question" autofocus required/>
+      </div>
+      <label><b>Security Answer :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="securityAnswer" placeholder="Security Answer" autofocus required/>
+      </div>
+      <button type="submit" name="submit">Signup</button><br>
+    </form>
+    <p><b>Already have an account?</b> </p>
+    <p><a class="signupButton" href ="http://localhost:3000/v1/users/loginPage" ><b>Log in</b></a></p><br>
+   </a></p>
+  </div>
+  </main>
+  <% include ./footer.ejs %>
+</body>
+</html>
