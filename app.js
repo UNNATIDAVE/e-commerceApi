@@ -100,7 +100,7 @@ app.get('*', function(request, response, next) {
 app.use(function(error, request, response, next) {
 
     console.log("Error handler used");
-    console.log(error);
+    //console.log(error);
 
     if (response.status == 404) {
         response.send("Please, Check your Path. Refer documentation for API Info");
