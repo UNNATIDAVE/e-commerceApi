@@ -11,15 +11,15 @@
 
     .box
     {
-      padding: 1% !important;
-      margin-left:20% !important;
-      margin-right: 20% !important;
-      margin-top: 0 !important;
+      padding: 1%;
+      margin-left:20%;
+      margin-right: 20%;
+      margin-top: 0;
     }
 
     .input-block
     {
-      margin: 5%;
+      margin: 1%;
     }
 
     form div input
@@ -39,9 +39,15 @@
       border-radius: 12px;
       border: 2px solid gray;
     }
+    button:hover{
+      background-color: #4c6b9b;
+    }
     p
     {
       text-align : center;
+    }
+    .header{
+      font-size: 2em;
     }
 
   </style>
@@ -49,34 +55,38 @@
 <body>
   <main>
   <div class="box">
-    <p><b>Create a Product</b></p>
+    <p class="header"><b>Create a Product</b></p>
     <hr>
     <form class="login-form" action="http://localhost:3000/v1/products/create" method="post">
+      <label><b>Product Name :*</b></label></br>
       <div class="input-block">
         <input class="input-box" autocomplete="off" type="text" name="productName" placeholder="Product Name" autofocus required/>
       </div>
+      <label><b>Product Price :*</b></label></br>
       <div class="input-block">
         <input class="input-box" autocomplete="off" type="number" name="productPrice" placeholder="Product Price" autofocus required/>
       </div>
+      <label><b>Product Description :*</b></label></br>
       <div class="input-block">
         <input class="input-box" autocomplete="off" type="text" name="productDescription" placeholder="Product Description" autofocus required/>
       </div>
-      <div class="input-block">
-        <input class="input-box" autocomplete="off" type="text" name="sellerName" placeholder="Seller Name" required/>
-      </div>
-      <div class="input-block">
-        <input class="input-box" autocomplete="off" type="text" name="sellerAddress" placeholder="Seller Address" autofocus required/>
-      </div>
-      <div class="input-block">
-        <input class="input-box" autocomplete="off" type="number" name="sellerContactNumber" placeholder="Contact Number" autofocus required/>
-      </div>
-      <div class="input-block">
-        <input class="input-box" autocomplete="off" type="text" name="sellerPinCode" placeholder=" Area PIN Code" autofocus required/>
-      </div>
+      <label><b>Product Category :*</b></label></br>
       <div class="input-block">
         <input class="input-box" autocomplete="off" type="text" name="productCategory" placeholder="Mention Categories seperated by commas " autofocus required/>
       </div> 
-      <button type="submit" name="submit">Create</button><br>      
+      <label><b>Seller Name :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="sellerName" placeholder="Seller Name" required/>
+      </div>
+      <label><b>Seller Address :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="text" name="sellerAddress" placeholder="Seller Address" autofocus required/>
+      </div>
+      <label><b>Seller Contact No :*</b></label></br>
+      <div class="input-block">
+        <input class="input-box" autocomplete="off" type="number" name="sellerContactNumber" placeholder="Contact Number" autofocus required/>
+      </div>
+      <button type="submit" name="submit">Create</button>      
     </form>   
   </div>
   </main>

@@ -14,6 +14,13 @@ var resGen = require('./../../library/resGenerator');
 
 module.exports.controller = function(app){
 
+    productRouter.get('/createPage', function(req, res){
+        res.render('addProduct');
+    });
+    productRouter.get('/deletePage', function(req, res){
+        res.render('deleteProduct');
+    });
+
     // Create a product
     productRouter.post('/create', function(req,res){
 
@@ -21,7 +28,6 @@ module.exports.controller = function(app){
 
             var productDetails = new productModel({
                 productId: uniqid(),
-                productImage: req.body.productImage,
                 productName: req.body.productName,
                 productPrice: req.body.productPrice,
                 productDescription: req.body.productDescription
@@ -38,10 +44,10 @@ module.exports.controller = function(app){
 
             var categories = (req.body.productCategory != undefined && req.body.productCategory != null) ? req.body.productCategory.split(',') : '';
 
-            productDetails.productCategory = category;
+            productDetails.productCategory = categories;
 
             productDetails.save(function(err){
-                if(error){
+                if(err){
                     var errRes = resGen.generate(true,'Please, Fill the require details.', 500, null);
                     res.render('error',{
                         message: errorResponse.message,
@@ -63,14 +69,14 @@ module.exports.controller = function(app){
 
     // view all products
 
-    productRouter.get('/allProducts', function(req,res){
+    productRouter.get('/all/items', function(req,res){
         productModel.find({}, function(err, allProducts){
-            if(error){
+            if(err){
                 var errRes = resGen.generate(true, 'Some error occured',500, null);
                 res.send(errRes);
             }
             else{
-                var successRes = resGen.generate(false, 'All Products', 200 , allProducts);
+                var successRes = resGen.generate(false, 'All Products are as below', 200 , allProducts);
                 res.send(successRes);
             }
         });
@@ -94,29 +100,10 @@ module.exports.controller = function(app){
         });
     });
 
-    // Edit Product
-
-    productRouter.put('/edit/:id', function(req, res){
-        var update = req.body;
-
-        productModel.findAndUpdate({
-            prodductId:res.params.id},
-            update, function(err,success){
-                if(success){
-                    var successRes = resGen.generate(false,'Product successfully Updated', 200, success);
-                    res.send(successResponse);
-                }
-                else{
-                    var errRes = resGen.generate(true, 'product not found', 500, null);
-                    res.send(errRes);
-                }
-        });
-    });
-
     // Delete Products
 
     productRouter.post('/delete', function(req, res){
-        productModel.findAndDelete({
+        productModel.findOneAndRemove({
             productId: req.body.id
         }, function(err,success){
             if(success){
@@ -137,7 +124,7 @@ module.exports.controller = function(app){
             'productSeller.sellerId': req.params.sellerId
         }, function(err,success){
             if(success){
-                var successRes = resGen.generate(fales,'Seller found successfully', 200, success);
+                var successRes = resGen.generate(false,'Seller found successfully', 200, success);
                 res.send(successRes);
             }
             else{

@@ -43,28 +43,30 @@
     {
       text-align : center;
     }
-    .link
+
+    .signupButton
     {
       text-decoration: none;
-      float: right;
     }
+
+
+
   </style>
 </head>
 <body >
   <main>
   <div class="box">
-    <h3><p><b>Remove Product From Cart </b></p></h3>
-    <a class ="link" href ="http://localhost:3000/v1/users/dashboard" > Home </a><br>
-    <a class ="link" href ="http://localhost:3000/v1/users/cart" >Cart</a><br>    
-    <a class ="link" href ="http://localhost:3000/v1/users/addToCart" > Add Products To Cart</a><br>
-   <hr>
-    <form class="login-form" action="http://localhost:3000/v1/users/cart/remove" method="post">
+    
+    <p><b>Password Recovery </b></p>
+    <hr>
+    <form class="login-form" action="http://localhost:3000/v1/users/recoverPass" method="post">
       <div class="input-block">
-        <input class="input-box" autocomplete="off" type="text" name="productId" placeholder="Product ID" autofocus required/> <br> <br>
-      <button type="submit" name="submit">Remove</button>
+        <input class="input-box" autocomplete="off" type="text" name="email" placeholder="Email ID" autofocus required/> <br> <br>
+      <button type="submit" name="submit">Recover</button><br>
       
     </form>
-
+    <p><a class="signupButton" href ="http://localhost:3000/v1/users/loginPage" ><b>Log in</b></a></p>
+    <p><a class="signupButton" href ="http://localhost:3000/v1/users/signupPage" ><b>Signup</b></a></p><br>
   </div>
   </main>
   <% include ./footer.ejs %>

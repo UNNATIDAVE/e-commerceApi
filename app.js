@@ -59,7 +59,7 @@ fs.readdirSync('./app/controllers').forEach(function(file){
 	}
 });
 
-var auth = require('./middlewares/myMiddleware');
+var myMiddlewares = require('./middlewares/myMiddleware');
 var userModel = mongoose.model('userData');
 
 app.use(function(request,response,next){

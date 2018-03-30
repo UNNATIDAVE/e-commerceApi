@@ -6,16 +6,16 @@ var uniqid = require('uniqid');
 var events = require('events');
 
 // Initializing modules
-var eventsEmitter = new events.EventEmitter();
+var eventEmitter = new events.EventEmitter();
 var userRouter = express.Router();
 var userModel = mongoose.model('userData');
 var productModel = mongoose.model('productData');
 var nodemailer = require('nodemailer');
 
 //Cerate nodemailer to send welcome mail
-var emailer = nodemailer.createTransport({
-    service: 'gmail',
-    myMiddlewares :{
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth :{
         user: 'test.support@gmail.com',
         pass: 'support@123'
     }
@@ -39,11 +39,14 @@ module.exports.controller = function(app){
     userRouter.get('/signupPage', myMiddlewares.isLoggedIn, function(req, res){
         res.render('signup');
     });
+    userRouter.get('/delete', function(req, res){
+        res.render('userDelete');
+    });
 
     // Delete user page
-    userRouter.post('/delete/:userId', function(req, res){
-        userModel.findAndDelete({
-            userId: req.params.userId
+    userRouter.post('/deleteUser', function(req, res){
+        userModel.findOneAndRemove({
+            userId: req.body.userId
         }, function(err, success){
             if(success){
                 var successRes = resGen.generate(false, 'User deleted successfully', 200, success);
@@ -82,19 +85,18 @@ module.exports.controller = function(app){
         });
     });
 
-    eventsEmitter.on('welcomeMessage', function(message){
+    eventEmitter.on('welcomeMessage', function(message){
         var mailOptions = {
             from: 'test.support@gmail.com',
             to: message.description.email,
             subject: 'Welcome User',
-            html: 'Hi' + data.description.name +',</br> <h2> Thank you for choosing us.</h2> </br> <h4> Your Email ID : </h4>' + data.description.email + ' </br> <h4> Your Password : </h4>' + data.description.password
+            html: 'Hi ,</br> <h2> Thank you for choosing us.</h2> </br> <h4> Your Email ID : </h4>' + message.description.email + ' </br> <h4> Your Password : </h4>' + message.description.password
         };
 
-        emailer.sendMail(mailOptions, function(err, info){
+        transporter.sendMail(mailOptions, function(err, info){
             if(err){
                 console.log(err);
             }
-
             else{
                 res.redirect('/v1/users/dashboard');
             }
@@ -103,6 +105,7 @@ module.exports.controller = function(app){
 
     // create signup page
     userRouter.post('/signup', function(req,res){
+
         if(req.body.firstName != undefined && req.body.lastName != undefined && req.body.email != undefined && req.body.password != undefined){
             var userDetails = new userModel({
                 userId: uniqid(),
@@ -146,10 +149,10 @@ module.exports.controller = function(app){
                             req.session.user = userDetails;
                             delete req.session.user.password;
 
-                            eventsEmitter.emit('welcomeMessage', {
+                            eventEmitter.emit('welcomeMessage', {
                                 description: req.session.user
                             });
-                            res.redirect('v1/users/dashboard');
+                            res.redirect('/v1/users/dashboard');
                         }
                     });
                 }
@@ -166,7 +169,7 @@ module.exports.controller = function(app){
 
     // Login page code
     userRouter.post('/login', function(req, res){
-        userModel.find({
+        userModel.findOne({
             $and: [{
                 'email' : req.body.email
             }, {
@@ -188,7 +191,7 @@ module.exports.controller = function(app){
             else{
                 req.session.user = foundUser;
                 delete req.session.user.password;
-                res.redirect('v1/users/dashboard');
+                res.redirect('/v1/users/dashboard');
             }
         });
     }); 
@@ -200,22 +203,22 @@ module.exports.controller = function(app){
     });
 
     userRouter.post('/passwordPage',function(req, res){
-        if(req.body.newPass != req.body.reNewPass){
+        if(req.body.newPassword != req.body.reNewPassword){
             var successRes = resGen.generate(true,'Password does not match. Please enter correct password.',500, null);
             res.send(successRes);
         }
         else{
-            var newPass = req.body.newPass;
-            userModel.findAndUpdate({
+            var newPass = req.body.newPassword;
+            userModel.findOneAndUpdate({
                 $and: [{
                     'email': req.session.user.email
                 },
                 {
-                    'password': req.body.oldPass
+                    'password': req.body.oldPassword
                 }]
             },{
                 $set:{
-                    password: new pass
+                    password: newPass
                 }
             },{
                 new: true
@@ -235,13 +238,14 @@ module.exports.controller = function(app){
                     req.session.user = foundUser;
                     delete req.session.user.password;
 
-                    var mailOption = {
+                    var mailOptions = {
+                        from: 'test.support@gmail.com',
                         to: req.session.user.email,
                         subject: 'Your account info has changed',
                         html: '<h4>The password for your account has been changed.</br></br> If you did NOT make this change, please sign in, change your password and contact us.</br></br> Your new Password is :' + foundUser.password + '</h4>'
                     };
 
-                    emailer.sendMail(mailOptions, function(err, info){
+                    transporter.sendMail(mailOptions, function(err, info){
                         if(err){
                             console.log(err);
                         }
@@ -277,13 +281,13 @@ module.exports.controller = function(app){
 
     //code to get all info
     userRouter.get('/allInfo', function(req, res){
-        userModel.find ( {}, function(err, allUsers){
+        userModel.find({}, function(err, allUsers){
             if(err){
                 var errRes = resGen.generate(true, 'some error occured', 500, null);
                 res.send(errRes);
             }
             else{
-                var successRes = resGen.generate(false, 'All Users', 200, allUSers);
+                var successRes = resGen.generate(false, 'All Users', 200, allUsers);
                 res.send(successRes);
             }
         });
@@ -335,7 +339,7 @@ module.exports.controller = function(app){
                 html: '<h2> A request was recieved to reset you password, Please contact us if you didnot request the reset your password. </h2></br> <h4> Your Password is : </h4>' + foundUser.password
                 };
 
-                emailer.sendMail(mailOptions, function(err,info){
+                transporter.sendMail(mailOptions, function(err,info){
                     if(err){
                         console.log(err);
                     }
@@ -349,20 +353,20 @@ module.exports.controller = function(app){
 
     // Add products in to cart
     userRouter.post('/cart/add', function(req, res){
-        var productsId = req.body.productId;
+        var productId = req.body.productId;
 
         productModel.findOne({
-            'productId': productsId
+            'productId': productId
         }, function(err,productFound){
-            if(prodctFound){
+            if(productFound){
                 userModel.findOne({
                     $and: [{
                         'email': req.session.user.email
                     }, {
-                        'cart.productId': productsId
+                        'cart.productId': productId
                     }]
                 }, function(err,productFoundInCart){
-                    if(productFoundUserCart){
+                    if(productFoundInCart){
                         var errRes = resGen.generate(true, 'Product already added to your cart',200,null);
                         res.send(errRes);
                     }
@@ -372,7 +376,10 @@ module.exports.controller = function(app){
                         };
                         userModel.findOneAndUpdate({
                             'email': req.session.user.email
-                        }, function(err,success){
+                        }, {
+                            $push: createCart
+                        },
+                        function(err,success){
                             if(err){
                                 var errRes = resGen.generate(true, 'some Error occured', 500, null);
                                 res.send(errRes);
@@ -396,7 +403,7 @@ module.exports.controller = function(app){
     userRouter.post('/cart/remove', function(req, res){
         var productsId = req.body.productId;
 
-        productsModel.findOne({
+        productModel.findOne({
             'productId': productsId
         }, function(err, productFound){
             if(productFound){
@@ -412,15 +419,15 @@ module.exports.controller = function(app){
                     }, {
                         'cart.productId': productsId
                     }]
-                }, function(err, productFoundInUserCart){
-                    if(productFoundInUserCart){
+                }, function(err, productFoundInCart){
+                    if(productFoundInCart){
                         userModel.update({
                             'email': req.session.user.email
                         }, {
                             $pull: removeCart
                         }, function(err, success){
                             if(success){
-                                var successRes = resGen.generate(false, 'Product successfully deleted', 200, success);
+                                var successRes = resGen.generate(false, 'Product successfully removed from your cart', 200, success);
                                 res.send(successRes);
                             }
                         });
