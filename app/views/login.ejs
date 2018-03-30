@@ -3,34 +3,25 @@
 <head>
   <% include ./head.ejs %>
   <style type="text/css">
-    body
-    {
-      margin: 0 !important;
-      padding:0 !important;
-    }
-
-    .login-box
-    {
+    
+    .login-box  {
       padding: 1%;
       margin-left:20%;
       margin-right: 20%;
       margin-top: 0;
     }
 
-    .input-block
-    {
+    .input-block {
       margin: 5%;
     }
 
-    form div input
-    {
+    form div input {
       width: 100%;
       margin: 0 !important;
       padding: 2%;
     }
 
-    button
-    {
+    button {
       width: 30%;
       margin-left: 35%;
       margin-right: 35%;
@@ -39,16 +30,13 @@
       border-radius: 12px;
       border: 2px solid gray;
     }
-    p
-    {
-      text-align : center;
-    }
-    .header{
-      font-size: 2em;
-    }
-    .link
-    {
+    .link1{
+      float: right;
       font-size: 1em;
+    }
+    .link{
+      text-align: center;
+      font-size: 1.5em;
     }
   </style>
 </head>
@@ -67,10 +55,10 @@
         <label><b>Password :</b></label></br>
         <input class="input-box" autocomplete="off" type="password" name="password" placeholder="Password" required/>
       </div>
-      <button type="submit" name="submit">Login</button><br>
+      <p><a class="link1" href ="http://localhost:3000/v1/users/forgot/password" ><b>Forgot Password ?</b></a></p><br>
+      <button type="submit" name="submit">Login</button><br>    
     </form>
-    <p><a class="link" href ="http://localhost:3000/v1/users/signupPage" ><b>Not Sign Up yet ?</b></a></p>
-    <p><a class="link" href ="http://localhost:3000/v1/users/forgotPass" ><b>Forgot Password ?</b></a></p><br>
+    <p class="link"><a href ="http://localhost:3000/v1/users/signupPage" ><b>Not Sign Up yet ?</b></a></p>
   </div>
   </main>
   <% include ./footer.ejs %>

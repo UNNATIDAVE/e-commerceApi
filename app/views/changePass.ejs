@@ -3,23 +3,17 @@
 <head>
   <% include ./head.ejs %>
   <style type="text/css">
-    body
-    {
-      margin: 0 !important;
-      padding:0 !important;
-    }
-
     .change-box
     {
-      padding: 1%;
-      margin-left:20%;
-      margin-right: 20%;
+      padding: 2%;
+      margin-left:2%;
+      margin-right: 2%;
       margin-top: 0;
     }
 
     .input-block
     {
-      margin: 5%;
+      margin: 1%;
     }
 
     form div input
@@ -37,34 +31,31 @@
       padding: 2%;
       background-color: transparent;
       border-radius: 12px;
-      border: 2px solid gray;
+      border: 1px solid gray;
     }
-    p
-    {
-      text-align : center;
-    }
-
-
   </style>
 
 </head>
 <body>
   <main>
-
+    <% include ./navbar.ejs %>
   <div class="change-box">
   
-    <p><b>Change Your Password</b></p>
+    <p class="header"><b>Change Your Password</b></p>
      <hr>
     <form  action=" http://localhost:3000/v1/users/passwordPage" method="post">
+      <label><b>Old Password :*</b></label></br>
       <div class="input-block">
-       Old Password: <input class="input-box" autocomplete="off" type="password" name="oldPassword" placeholder="Old Password" autofocus required />
+        <input class="input-box" autocomplete="off" type="password" name="oldPassword" placeholder="Old Password" autofocus required />
       </div>
+      <label><b>New Password :*</b></label></br>
       <div class="input-block">
-        New Password:<input class="input-box" autocomplete="off" type="password" name="newPassword" placeholder="New Password" required/>
+        <input class="input-box" autocomplete="off" type="password" name="newPassword" placeholder="New Password" required/>
       </div>
+      <label><b>Retype New Password :*</b></label></br>
       <div class="input-block">
-        Retype New Password:<input class="input-box" autocomplete="off" type="password" name="reNewPassword" placeholder="Retype New Password" required/>
-      </div>      
+        <input class="input-box" autocomplete="off" type="password" name="reNewPassword" placeholder="Retype New Password" required/>
+      </div>      <br>
       <button type="submit" name="submit">Change Password</button>
       
     </form>

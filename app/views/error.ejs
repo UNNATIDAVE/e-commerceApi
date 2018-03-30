@@ -3,18 +3,12 @@
 <head>
   <% include ./head.ejs %>
   <style type="text/css">
-    body
-    {
-      margin: 0 !important;
-      padding:0 !important;
-    }
-
     .error-box
     {
-      padding: 5% !important;
-      margin-left:20% !important;
-      margin-right: 20% !important;
-      margin-top: 0 !important;
+      padding: 5%;
+      margin-left:20%;
+      margin-right: 20%;
+      margin-top: 0;
     }
 
     .input-block
@@ -43,24 +37,19 @@
     {
       text-align : center;
     }
-
-    
     .link
     {
       text-decoration: none;
       float: center;
     }
-
-
-
   </style>
 </head>
 <body>
   <main>
   <div class="error-box">
     <br>
-    <p><b> Oops ! Some error occured. </b></p>
-    <br> <hr>
+    <p class="header"><b><i class="fa fa-frown-o" style="font-size:48px;color:red"></i> Oops ! Some error occured. </b></p>
+    <br>
     <p> Error Says : <code> <%= message %>  </code></p>
     <p> Status : <code> <%= status %>   </code></p>
     <p><a class="link" href ="http://localhost:3000/v1/users/loginPage" ><b>Login</b></a></p>

@@ -3,23 +3,17 @@
 <head>
   <% include ./head.ejs %>
   <style type="text/css">
-    body
-    {
-      margin: 0 !important;
-      padding:0 !important;
-    }
-
     .box
     {
-      padding: 1%;
-      margin-left:20%;
-      margin-right: 20%;
+      padding: 2%;
+      margin-left:2%;
+      margin-right: 2%;
       margin-top: 0;
     }
 
     .input-block
     {
-      margin: 5%;
+      margin: 1%;
     }
 
     form div input
@@ -37,42 +31,25 @@
       padding: 2%;
       background-color: transparent;
       border-radius: 12px;
-      border: 2px solid gray;
+      border: 1px solid gray;
     }
-    p
-    {
-      text-align : center;
-    }
-    .header{
-      font-size: 2em;
-    }
-    
-
-    .signupButton
-    {
-      text-decoration: none;
-    }
-    button:hover{
-      background-color: #4c6b9b;
-    }
-
-
-
   </style>
 </head>
 <body >
   <main>
+    <% include ./navbar-pro.ejs %>
   <div class="box">
     <br>
     <p class="header"><b>Delete a Product</b></p>
     <br> <hr>
     <form class="login-form" action="http://localhost:3000/v1/products/delete" method="post">
+      <label><b>Product Id :*</b></label></br>
       <div class="input-block">
         <input class="input-box" autocomplete="off" type="text" name="productId" placeholder="Product ID" autofocus required/> <br> <br>
       <button type="submit" name="submit">Delete</button><br> 
     </form>
      </div>
-  </main>
+  </main><br><br>
   <% include ./footer.ejs %>
 </body>
 </html>

@@ -3,12 +3,6 @@
 <head>
   <% include ./head.ejs %>
   <style type="text/css">
-    body
-    {
-      margin: 0 !important;
-      padding:0 !important;
-    }
-
     .box
     {
       padding: 1%;
@@ -19,7 +13,7 @@
 
     .input-block
     {
-      margin: 5%;
+      margin: 1%;
     }
 
     form div input
@@ -43,21 +37,10 @@
     {
       text-align : center;
     }
-    .header{
-      font-size: 2em;
-    }
-    
-
     .signupButton
     {
       text-decoration: none;
     }
-    button:hover{
-      background-color: #4c6b9b;
-    }
-
-
-
   </style>
 </head>
 <body>
@@ -67,8 +50,9 @@
     <p class="header"><b>Delete a User</b></p>
     <br> <hr>
     <form class="login-form" action="http://localhost:3000/v1/users/deleteUser" method="post">
+      <label><b>User Id :*</b></label></br>
       <div class="input-block">
-        <input class="input-box" autocomplete="off" type="text" name="userId" placeholder="Product ID" autofocus required/> <br> <br>
+        <input class="input-box" autocomplete="off" type="text" name="userId" placeholder="User ID" autofocus required/> <br> <br>
       <button type="submit" name="submit">Delete</button><br> 
     </form>
      </div>

@@ -16,81 +16,70 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth :{
-        user: 'test.support@gmail.com',
+        user: 'testecommerce98@gmail.com',
         pass: 'support@123'
     }
 });
 
+// calling libraries and middlewares
 var resGen = require('./../../library/resGenerator');
 var myMiddlewares = require('./../../middlewares/myMiddleware');
 
 module.exports.controller = function(app){
 
-    // Login Page
+    // Redirect Login Page
     userRouter.get('/', function(req,res){
         res.redirect('/v1/users/loginPage');
     });
 
+    // Login Page Code 
+
     userRouter.get('/loginPage', myMiddlewares.isLoggedIn, function(req, res){
-        res.render('login');
+        res.render('login'); // redirect to login.ejs page
     });
 
-    // Signup page
-    userRouter.get('/signupPage', myMiddlewares.isLoggedIn, function(req, res){
-        res.render('signup');
-    });
-    userRouter.get('/delete', function(req, res){
-        res.render('userDelete');
-    });
-
-    // Delete user page
-    userRouter.post('/deleteUser', function(req, res){
-        userModel.findOneAndRemove({
-            userId: req.body.userId
-        }, function(err, success){
-            if(success){
-                var successRes = resGen.generate(false, 'User deleted successfully', 200, success);
-                res.send(successRes);
-            }
-            else{
-                var errRes = resGen.generate(true, 'User not Found', 500, null);
+    // access data from login.ejs
+    userRouter.post('/login', function(req, res){
+        userModel.findOne({
+            $and: [{
+                'email' : req.body.email
+            }, {
+                'password': req.body.password
+            }]
+        }, function(err, foundUser){
+            if(err){
+                var errRes = resGen.generate(true, 'Error occured', 500, null);
                 res.send(errRes);
             }
+            else if(foundUser == undefined || foundUser.email == undefined || foundUser.password == undefined){
+
+                var errRes= resGen.generate(true,'user data not found', 500, null);
+                res.render('error',{
+                    message: errRes.message,
+                    status: errRes.status
+                });
+            }
+            else{
+                req.session.user = foundUser;
+                delete req.session.user.password;
+                res.redirect('/v1/users/dashboard');
+            }
         });
+    });         
+    // End login Page
+
+    // Signup page Code
+    userRouter.get('/signupPage', myMiddlewares.isLoggedIn, function(req, res){
+        res.render('signup');   // Redirect to signup.ejs page
     });
 
-
-    // code for Dashboard
-    userRouter.get('/dashboard', myMiddlewares.checkLogin, function(req,res){
-        res.render('home',{
-            user: req.session.user
-        });
-    });
-
-    // code for add to cart 
-    userRouter.get('/addToCart', myMiddlewares.checkLogin, function(req,  res){
-        res.render('addToCart');
-    });
-
-    // code for remove from cart
-    userRouter.get('/removeFromCart', myMiddlewares.checkLogin, function(req,  res){
-        res.render('removeFromCart');
-    });
-
-    //Log Out page
-
-    userRouter.get('/logout', function(req, res){
-        req.session.destroy(function(err){
-            res.redirect('/v1/users/loginPage');
-        });
-    });
-
+    // code to send email
     eventEmitter.on('welcomeMessage', function(message){
         var mailOptions = {
-            from: 'test.support@gmail.com',
+            from: 'testecommerce98@gmail.com',
             to: message.description.email,
             subject: 'Welcome User',
-            html: 'Hi ,</br> <h2> Thank you for choosing us.</h2> </br> <h4> Your Email ID : </h4>' + message.description.email + ' </br> <h4> Your Password : </h4>' + message.description.password
+            html: '<h2>Hi'+message.description.firstName +',</h2><h2> Thank you for choosing us.</h2> <h4> Your Email ID : </h4>' + message.description.email + ' <h4> Your Password : </h4>' + message.description.password
         };
 
         transporter.sendMail(mailOptions, function(err, info){
@@ -103,7 +92,7 @@ module.exports.controller = function(app){
         });
     });
 
-    // create signup page
+    // access data from signup.ejs
     userRouter.post('/signup', function(req,res){
 
         if(req.body.firstName != undefined && req.body.lastName != undefined && req.body.email != undefined && req.body.password != undefined){
@@ -148,7 +137,7 @@ module.exports.controller = function(app){
                         else{
                             req.session.user = userDetails;
                             delete req.session.user.password;
-
+                            // send mail to user
                             eventEmitter.emit('welcomeMessage', {
                                 description: req.session.user
                             });
@@ -166,42 +155,61 @@ module.exports.controller = function(app){
             });
         }
     });
+    // End Signup page
 
-    // Login page code
-    userRouter.post('/login', function(req, res){
-        userModel.findOne({
-            $and: [{
-                'email' : req.body.email
-            }, {
-                'password': req.body.password
-            }]
-        }, function(err, foundUser){
-            if(err){
-                var errRes = resGen.generate(true, 'Error occured', 500, null);
-                res.send(errRes);
-            }
-            else if(foundUser == undefined || foundUser.email == undefined || foundUser.password == undefined){
+    // Delete page code
 
-                var errRes= resGen.generate(true,'user data not found', 500, null);
-                res.render('error',{
-                    message: errRes.message,
-                    status: errRes.status
-                });
-            }
-            else{
-                req.session.user = foundUser;
-                delete req.session.user.password;
-                res.redirect('/v1/users/dashboard');
-            }
-        });
-    }); 
-
-    // code for password change
-
-    userRouter.get('/changePassword', myMiddlewares.checkLogin, function(req, res){
-        res.render('changePass');
+    userRouter.get('/delete', function(req, res){
+        res.render('userDelete'); //Redirect to userDelete.ejs page
     });
 
+    // access data from userDelete.ejs page
+    userRouter.post('/deleteUser', function(req, res){
+        userModel.findOneAndRemove({
+            userId: req.body.userId
+        }, function(err, success){
+            if(success){
+                var successRes = resGen.generate(false, 'User deleted successfully', 200, success);
+                res.send(successRes);
+            }
+            else{
+                var errRes = resGen.generate(true, 'User not Found', 500, null);
+                res.send(errRes);
+            }
+        });
+    });
+    // End Delete page
+
+    // code for Dashboard
+    userRouter.get('/dashboard', myMiddlewares.checkLogin, function(req,res){
+        res.render('home',{
+            user: req.session.user
+        });
+    });
+
+    // code for add to cart 
+    userRouter.get('/addToCart', myMiddlewares.checkLogin, function(req,  res){
+        res.render('addToCart'); //Redirect to addToCart.ejs page
+    });
+
+     // code for remove from cart
+    userRouter.get('/removeFromCart', myMiddlewares.checkLogin, function(req,  res){
+        res.render('removeFromCart'); // Redirect to removeFromCart.ejs page
+    });
+
+    //Log Out page
+    userRouter.get('/logout', function(req, res){
+        req.session.destroy(function(err){
+            res.redirect('/v1/users/loginPage');
+        });
+    });
+ 
+    // code for password change
+    userRouter.get('/changePassword', myMiddlewares.checkLogin, function(req, res){
+        res.render('changePass'); //Redirect to changePass.ejs page
+    });
+
+    // Access data from changePass.ejs
     userRouter.post('/passwordPage',function(req, res){
         if(req.body.newPassword != req.body.reNewPassword){
             var successRes = resGen.generate(true,'Password does not match. Please enter correct password.',500, null);
@@ -239,10 +247,10 @@ module.exports.controller = function(app){
                     delete req.session.user.password;
 
                     var mailOptions = {
-                        from: 'test.support@gmail.com',
+                        from: 'testecommerce98@gmail.com',
                         to: req.session.user.email,
                         subject: 'Your account info has changed',
-                        html: '<h4>The password for your account has been changed.</br></br> If you did NOT make this change, please sign in, change your password and contact us.</br></br> Your new Password is :' + foundUser.password + '</h4>'
+                        html: '<h4>The password for your account has been changed.</h4><h4> If you did NOT make this change, please sign in, change your password and contact us.</h4><h3> Your new Password is :' + foundUser.password + '</h3>'
                     };
 
                     transporter.sendMail(mailOptions, function(err, info){
@@ -279,7 +287,7 @@ module.exports.controller = function(app){
         });
     });
 
-    //code to get all info
+    //code to get all Users informations
     userRouter.get('/allInfo', function(req, res){
         userModel.find({}, function(err, allUsers){
             if(err){
@@ -311,10 +319,11 @@ module.exports.controller = function(app){
 
     // forgot password screen
 
-    userRouter.get('/forgotPass', function(req, res){
-        res.render('forgot');
-    });
+    userRouter.get('/forgot/password', function(req, res){
+        res.render('forgot');    //Redirect to forgot.ejs page
+    }); 
 
+    // Access data from forgot.ejs
     userRouter.post('/recoverPass', function(req, res){
        userModel.findOne({
         'email': req.body.email
@@ -350,8 +359,10 @@ module.exports.controller = function(app){
             }
        }); 
     });
+    // End forgot password page
 
-    // Add products in to cart
+    
+    // Access data from addToCart.ejs page
     userRouter.post('/cart/add', function(req, res){
         var productId = req.body.productId;
 
@@ -398,8 +409,12 @@ module.exports.controller = function(app){
             }
         });
     });
+    // End Add to cart page
 
-    //Remove product from cart
+
+   
+
+    // Access data from removeFromCart.ejs page
     userRouter.post('/cart/remove', function(req, res){
         var productsId = req.body.productId;
 
@@ -443,5 +458,6 @@ module.exports.controller = function(app){
             }
         });
     });
+    // End Remove form cart page
     app.use('/v1/users', userRouter);
 }

@@ -3,38 +3,19 @@
 <head>
 
   <% include ./head.ejs %>
-  <style type="text/css">
-  
-    .dashboard-box
-    {
-      padding: 3% !important;
-      margin-left:20% !important;
-      margin-right: 20% !important;
-      margin-top: 0 !important;
-    }  
-    p
-    {
-      text-align : center;
-    }
-    .link{
-      float: right;
-    }
-  </style>
 </head>
 <body>
   <main>
-  <div class="dashboard-box">
-  
-    <h2><p><b > Welcome <%= user.firstName %> </b></p></h2>
-    <a class ="link" href ="http://localhost:3000/v1/users/logout">Logout</a><br>
-    <a class ="link" href ="http://localhost:3000/v1/users/cart">Cart</a><br>
-    <a class ="link" href ="http://localhost:3000/v1/users/addToCart">Add product to Cart</a><br>
-    <a class ="link" href ="http://localhost:3000/v1/users/removeFromCart" > Remove Products From Cart</a><br>
-    <a class ="link" href ="http://localhost:3000/v1/users/changePassword" >Change Password</a><br>
-       <hr>
-    <p> Your Email ID is : <code> <%= user.email %>  </code></p>
+  <% include ./navbar.ejs %>
     
-    <br><br><br><br><br><br><br><br>
+    <h2><p class="header"><b > Welcome <%= user.firstName %> </b></p></h2>
+    <p> Your Email ID is : <code> <%= user.email %>  </code></p>
+    <p> Your Security Question is: <code><%= user.recoveryDetails.securityQuestion %></code></p>
+    <p> Your Security Answer is: <code><%= user.recoveryDetails.securityAnswer %></code></p>
+    <p> Your Primary Mobile is: <code><%= user.mobileNumbers.primaryMobileNo %></code></p>
+    <p> Your Secondary Mobile is: <code><%= user.mobileNumbers.secondaryMobileNo %></code></p>
+    
+    <br><br><br><br><br>
   </div>
   </main>
   <% include ./footer.ejs %>

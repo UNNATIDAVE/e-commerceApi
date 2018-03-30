@@ -8,23 +8,23 @@ Base url for users - http://localhost:3000/v1/users/
 
     Methods  |      URLs         |           Descriptions
 			 |                   |
-*1)   GET     | /allInfo 	     | This URL get all users information.
+1)   GET     | /allInfo 	     | This URL get all users information.
 			 |                   |
-*2)   GET     | /loginPage 	     | This will redirect to login screen where user can login.
+2)   GET     | /loginPage 	     | This will redirect to login page where user can login.
 			 |                   |
-*3)   GET     | /signupPage		 | Signup page URL for User Registeration.
+3)   GET     | /signupPage		 | Signup page URL for new User Registeration.
 			 |                   |
-*4)   GET    | /delete	 | For Delete user.
+4)   GET     | /delete	         | For Delete user by User Id.
 			 |                   |						
-*5)   GET     | /dashboard		 | Main dashboard page. 
+5)   GET     | /dashboard		 | Home page. 
 			 |                   |
-*6)   GET     | /logout			 | Logout API page.
+6)   GET     | /logout			 | Logout API page.
 			 |                   |
 7)   GET     | /changePassword	 | This is used to change your password.
 			 |                   |
-8)  GET     | /cart			 | For users cart info
+8)  GET      | /cart			 | For users cart info
 			 |                   |
-*9)  GET     | /:userId			 | Gives information of perticuler userid
+9)  GET      | /:userId			 | Gives information of perticuler userid
 			 |                   |
 10)  GET     | /forgotPass		 | Forgot Password page to recover your password
 			 |                   |
@@ -39,13 +39,13 @@ Base url for Products - http://localhost:3000/v1/products/
 
     Methods  |      URLs         |           Descriptions
 			 |                   |
-*1)   GET     | /all/items   	 | This is used to get all products information.
+1)   GET     | /all/items   	 | This is used to get all products information.
 			 |                   |							
-*2)   GET     | /:productId		 | To get information of perticuler product.
+2)   GET     | /:productId		 | To get information of perticuler product.
 			 |                   |						
-*4)   GET     | /seller/:sellerId | Get information of the seller.
+4)   GET     | /seller/:sellerId | Get information of the seller.
 			 |                   |
-*5)   GET     | /createPage		 | Use to create a product.
+5)   GET     | /createPage		 | Use to create a product.
 			 |                   |
-*6)   GET     | /deletePage		 | Use to delete a product from the list.
+6)   GET     | /delete/pro		 | Use to delete a product from the list.
 

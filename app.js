@@ -37,6 +37,7 @@ app.use(expressSession({
 app.set('view engine','ejs'); // for Tempalating engine
 app.set('views', path.join(__dirname + '/app/views'));
 
+// Create Database
 var dbPath = "mongodb://localhost/eCommerce";
 var db = mongoose.connect(dbPath);
 

@@ -14,14 +14,12 @@ var resGen = require('./../../library/resGenerator');
 
 module.exports.controller = function(app){
 
+    // Create a product
+   
     productRouter.get('/createPage', function(req, res){
         res.render('addProduct');
     });
-    productRouter.get('/deletePage', function(req, res){
-        res.render('deleteProduct');
-    });
-
-    // Create a product
+    
     productRouter.post('/create', function(req,res){
 
         if(req.body.productName != undefined && req.body.productPrice != undefined && req.body.productDescription != undefined && req.body.sellerName != undefined && req.body.sellerAddress != undefined && req.body.sellerContactNumber != undefined){
@@ -66,6 +64,7 @@ module.exports.controller = function(app){
             res.send(errRes);
         }
     });
+    // End create product page
 
     // view all products
 
@@ -81,8 +80,9 @@ module.exports.controller = function(app){
             }
         });
     });
+    // End view all products page
 
-    //Find a single product
+    //Find a single product using product Id
 
     productRouter.get('/:productId', function(req,res){
         productModel.findOne({
@@ -99,8 +99,13 @@ module.exports.controller = function(app){
             }
         });
     });
+    // End Find a product page
 
     // Delete Products
+
+    productRouter.get('/delete/pro', function(req, res){
+        res.render('deleteProduct');
+    });
 
     productRouter.post('/delete', function(req, res){
         productModel.findOneAndRemove({
@@ -116,9 +121,9 @@ module.exports.controller = function(app){
             }
         });
     });
+    // End Delete Product Page
 
     // Find Product's seller details
-
     productRouter.get('/seller/:sellerId', function(req, res){
         productModel.findOne({
             'productSeller.sellerId': req.params.sellerId
@@ -133,6 +138,7 @@ module.exports.controller = function(app){
             }
         });
     });
+    // End Find seller by Id page
 
     app.use('/v1/products',productRouter);
 }

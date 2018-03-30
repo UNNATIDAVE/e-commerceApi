@@ -3,17 +3,11 @@
 <head>
   <% include ./head.ejs %>
   <style type="text/css">
-    body
-    {
-      margin: 0 !important;
-      padding:0 !important;
-    }
-
     .box
     {
-      padding: 1%;
-      margin-left:20%;
-      margin-right: 20%;
+      padding: 2%;
+      margin-left:2%;
+      margin-right: 2%;
       margin-top: 0;
     }
 
@@ -37,23 +31,13 @@
       padding: 2%;
       background-color: transparent;
       border-radius: 12px;
-      border: 2px solid gray;
+      border: 1px solid gray;
     }
-    button:hover{
-      background-color: #4c6b9b;
-    }
-    p
-    {
-      text-align : center;
-    }
-    .header{
-      font-size: 2em;
-    }
-
   </style>
 </head>
 <body>
   <main>
+    <% include ./navbar-pro.ejs %>
   <div class="box">
     <p class="header"><b>Create a Product</b></p>
     <hr>
@@ -85,7 +69,7 @@
       <label><b>Seller Contact No :*</b></label></br>
       <div class="input-block">
         <input class="input-box" autocomplete="off" type="number" name="sellerContactNumber" placeholder="Contact Number" autofocus required/>
-      </div>
+      </div><br>
       <button type="submit" name="submit">Create</button>      
     </form>   
   </div>
